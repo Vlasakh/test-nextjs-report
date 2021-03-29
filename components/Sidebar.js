@@ -6,7 +6,6 @@ import AppPropsContext from './AppPropsContext';
 
 const Sidebar = () => {
   const { slugs = [], slug } = useContext(AppPropsContext);
-  console.log('slug', slug);
 
   return (
     <aside>

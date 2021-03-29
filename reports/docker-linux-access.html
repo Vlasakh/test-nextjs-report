@@ -1,0 +1,16 @@
+<h1>How to access localhost from inside a Docker Container in Linux</h1>
+
+<p>"Steps to access allow a docker container to access stuff on the host"</p>
+
+<div><ol>
+<li>Enable <code>route_localnet</code> for <code>docker0</code> interface:</li>
+</ol>
+<pre><code>sysctl -w net.ipv4.conf.docker0.route_localnet=1</code></pre><ol start="2">
+<li>Add this rules to iptables:</li>
+</ol>
+<pre><code>iptables -t nat -I PREROUTING -i docker0 -d 172.17.0.1 -p all -j DNAT --to 127.0.0.1
+iptables -t filter -I INPUT -i docker0 -d 127.0.0.1 -p all -j ACCEPT</code></pre><ol start="3">
+<li>You can now use <code>172.17.0.1</code> to access localhost on the host.</li>
+</ol>
+<p>reference <a href="https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach">https://stackoverflow.com/questions/24319662/from-inside-of-a-docker-container-how-do-i-connect-to-the-localhost-of-the-mach</a></p>
+</div>

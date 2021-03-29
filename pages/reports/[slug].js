@@ -11,7 +11,6 @@ const Post = ({ htmlString, data = {} }) => (
   <>
     <Head>
       <title>{data.title}</title>
-      <meta title="description" content={data.description} />
     </Head>
     <Layout>
       <div dangerouslySetInnerHTML={{ __html: htmlString }} />
@@ -24,7 +23,7 @@ export const getStaticPaths = async () => {
   // console.log('files: ', files);
   const paths = files.map((filename) => ({
     params: {
-      slug: filename.replace('.md', ''),
+      slug: filename.replace('.html', ''),
     },
   }));
   // console.log('paths: ', paths);
@@ -36,16 +35,12 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  const markdownWithMetadata = fs.readFileSync(path.join('reports', slug + '.md')).toString();
-
-  const parsedMarkdown = matter(markdownWithMetadata);
-
-  const htmlString = marked(parsedMarkdown.content);
+  const htmlString = fs.readFileSync(path.join('reports', slug + '.html')).toString();
 
   return {
     props: {
       htmlString,
-      data: parsedMarkdown.data,
+      data: { title: slug },
     },
   };
 };

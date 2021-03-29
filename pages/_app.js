@@ -17,7 +17,7 @@ export default function MyApp({ Component, appProps, pageProps }) {
 
 MyApp.getInitialProps = async (appContext) => {
   const files = fs.readdirSync('reports');
-  const slugs = files.map((filename) => filename.replace('.md', ''));
+  const slugs = files.map((filename) => filename.replace('.html', ''));
   const {
     router: {
       query: { slug },
